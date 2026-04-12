@@ -1,0 +1,6 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored — never commit subscription IDs.
+
+subscription_id     = "YOUR-SUBSCRIPTION-ID-HERE"
+location            = "uaenorth"
+resource_group_name = "rg-secops-prod"

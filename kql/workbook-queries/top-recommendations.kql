@@ -1,0 +1,8 @@
+// Top 10 active recommendations by count
+// Source: SecurityRecommendation table (populated by Continuous Export)
+SecurityRecommendation
+| where TimeGenerated > ago(1d)
+| where RecommendationState == "Active"
+| summarize Count = count() by RecommendationName, RecommendationSeverity
+| order by Count desc
+| take 10

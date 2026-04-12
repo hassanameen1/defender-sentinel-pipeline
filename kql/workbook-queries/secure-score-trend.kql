@@ -1,0 +1,6 @@
+// Secure Score trend over time
+// Source: SecureScores table (populated by Continuous Export)
+SecureScores
+| where TimeGenerated > ago(30d)
+| project TimeGenerated, PercentageScore = round(PercentageScore * 100, 1)
+| order by TimeGenerated asc

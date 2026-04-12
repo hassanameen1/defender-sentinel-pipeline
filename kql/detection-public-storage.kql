@@ -1,0 +1,27 @@
+// Detection: Public Blob Access Enabled on Storage Account
+// Fires when Defender for Cloud flags a storage account with public blob access enabled.
+// Continuous Export must be configured to push SecurityRecommendation data into this workspace.
+//
+// Table: SecurityRecommendation (populated by Defender for Cloud Continuous Export)
+// Frequency: every 5 minutes | Lookback: 5 minutes
+// Severity: High
+
+SecurityRecommendation
+| where TimeGenerated > ago(5m)
+| where RecommendationState == "Active"
+| where RecommendationName has_any (
+    "blob public access",
+    "public access should be disallowed",
+    "Blob public access should be disallowed",
+    "Storage account public access"
+)
+| project
+    TimeGenerated,
+    AzureResourceId,
+    ResourceName = tostring(split(AzureResourceId, "/")[-1]),
+    ResourceGroup,
+    SubscriptionId,
+    RecommendationName,
+    RecommendationState,
+    RemediationDescription
+| order by TimeGenerated desc
