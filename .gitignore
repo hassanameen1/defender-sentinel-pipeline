@@ -14,6 +14,9 @@ terraform.tfvars
 # macOS
 .DS_Store
 
+# Private — not for public repo
+linkedin/
+
 # Screenshots (large files — commit selectively)
 screenshots/*.png
 screenshots/*.jpg
