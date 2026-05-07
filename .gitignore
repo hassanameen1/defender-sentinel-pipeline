@@ -17,7 +17,11 @@ terraform.tfvars
 # Private — not for public repo
 linkedin/
 
-# Screenshots (large files — commit selectively)
-screenshots/*.png
-screenshots/*.jpg
-screenshots/*.gif
+# Project 5 spec lives in its own repo
+CLAUDE3.md
+
+# Stale empty template — replaced by BUILD_LOG.md
+Project 4 - Build Log.md
+
+# Rebuild work-in-progress
+terraform1/

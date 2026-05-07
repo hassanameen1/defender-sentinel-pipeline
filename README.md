@@ -195,6 +195,34 @@ Closest low-cost Azure region. Note: UAE North has limited Logic App connector a
 
 ---
 
+## Lessons Learned
+
+The errors that taught the most while building this:
+
+- **Continuous Export is the critical link nobody talks about.** Defender findings don't automatically reach Sentinel — Continuous Export has to be explicitly configured at the subscription level. Miss it and your KQL rules query empty tables.
+- **Sentinel KQL schema validation traps you on fresh workspaces.** New workspaces have no registered table schema, so any `project` referencing a column fails at rule creation. Deploy bare filter rules first, add projections once data flows.
+- **Logic App HTTP actions need Managed Identity auth set explicitly in the designer.** Setting system-assigned identity in Terraform isn't enough — the HTTP action's Authentication property has to be set in the workflow definition, or you get `401 Unauthorized` from ARM.
+- **Scope role assignments to the resource group, not the subscription.** Easy to grant Storage Account Contributor at sub level for convenience. Resist — it makes a compromised playbook a lateral-movement vector.
+- **Continuous Export and Activity Log diagnostic settings are different pipes.** Posture detections need the first; behavioral detections (NSG rule changes, role assignments) need the second. Both are forward-only — wiring them after misconfigs exist means historical events are invisible.
+- **Regional connector availability is a real production constraint.** UAE North doesn't have the Sentinel incident connector for Logic Apps. In production, deploy to a region with the full catalog (`westeurope`, `eastus`).
+
+Full context in [BUILD_LOG.md](BUILD_LOG.md).
+
+---
+
+## Screenshots
+
+Build evidence captured during deployment:
+
+- ![Resource group](screenshots/01-resource-group-created.png) — `rg-secops-prod` provisioned via Terraform
+- ![Defender plans](screenshots/05-defender-plans-enabled.png) — all Defender plans enabled in trial
+- ![Sentinel onboarded](screenshots/03-sentinel-onboarded.png) — Sentinel onboarded to `law-secops-prod`
+- ![Continuous Export](screenshots/06-continuous-export-configured.png) — Continuous Export wired into Log Analytics
+- ![Secure Score baseline](screenshots/04-secure-score-baseline.png) — baseline Secure Score before remediation
+- ![Detection rule](screenshots/09-sentinel-detection-rule.png) — Sentinel scheduled analytics rule for public storage access
+
+---
+
 ## Build Log
 
-See [BUILD_LOG.md](BUILD_LOG.md) for session-by-session notes, errors encountered, and decisions made.
+See [BUILD_LOG.md](BUILD_LOG.md) for the full lessons-learned writeup, decisions made, and architecture trade-offs.
