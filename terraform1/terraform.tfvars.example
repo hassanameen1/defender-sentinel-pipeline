@@ -1,0 +1,4 @@
+subscription_id = "your_subs_id"
+location = "azure_region"
+resource_group_name = "your_resource_groupname"
+sql_admin_password = "your_sql_password"
