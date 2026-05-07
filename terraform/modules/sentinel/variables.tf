@@ -1,25 +1,16 @@
-variable "resource_group_name" {
-  description = "Name of the resource group"
-  type        = string
-}
-
-variable "location" {
-  description = "Azure region"
-  type        = string
-}
-
 variable "workspace_id" {
-  description = "Resource ID of the Log Analytics Workspace to onboard Sentinel onto"
+  description = "defining workspace id"
   type        = string
 }
-
-variable "workspace_name" {
-  description = "Name of the Log Analytics Workspace"
+variable "subscription_id" {
+  description = "azure subs id to deploy"
   type        = string
 }
-
-variable "tags" {
-  description = "Tags to apply to resources"
-  type        = map(string)
-  default     = {}
+variable "logic_app_id" {
+  description = "logic app arm id"
+  type        = string
+}
+variable "resource_group_id" {
+  description = "ARM resource ID of the resource group for RBAC scope"
+  type        = string
 }
